@@ -1,11 +1,21 @@
+import * as Express from 'express';
+import { Application, Router } from 'express';
+
 import { Controller, RequestType } from 'system/Controller';
 
 export class Server {
 
-    // router = new Router(this.route || '');
+    private port = 3600;
+    private app: Application = Express();
 
     constructor() {
         this.onInit();
+
+        this.app.listen(this.port, () => {
+            console.log(`Listening on port "${this.port}"`);
+
+            this.onStart();
+        });
     }
 
     /**
@@ -15,12 +25,20 @@ export class Server {
     public onInit(): void {}
 
     /**
+     * Part of lifecycle after app started listening
+     */
+    public onStart(): void {}
+
+    /**
      * Attach controller extended class
      */
-    public use(controller: typeof Controller): void {
+    public controller(controller: typeof Controller): void {
 
         let instance = new controller();
         let routes = instance.constructor.prototype._routes;
+        let router: Router = Router();
+
+        instance.onInit();
 
         for (let route of routes) {
 
@@ -30,16 +48,32 @@ export class Server {
 
             switch (type) {
                 case RequestType.GET:
-                    // this.router.get(path, method);
+                    router.get(path, method);
                     break;
                 case RequestType.POST:
-                    // this.router.post(path, method);
+                    router.post(path, method);
                     break;
             }
 
-            // this.server.use(router);
         }
 
+        this.app.use(instance.route || '/', router);
+
+    }
+
+    /**
+     * Sets port of app, works just in onInit function
+     */
+    public setPort(port: number): void {
+        this.port = port;
+    }
+
+    public getPort(): number {
+        return this.port;
+    }
+
+    public getExpressApp(): Application {
+        return this.app;
     }
 
 }

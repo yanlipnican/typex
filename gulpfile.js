@@ -24,6 +24,7 @@ gulp.task('typescript', function() {
             module: {
               loaders: [
                 { test: /\.ts$/, loader: 'ts-loader' },
+                { test: /\.json$/, loader: 'json-loader' },
               ],
             },
           }))

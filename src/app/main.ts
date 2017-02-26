@@ -6,7 +6,11 @@ import { PostController } from 'app/controllers/PostController';
 export class App extends Server{
 
     onInit() {
-        this.use(PostController);
+
+        this.setPort(3000);
+
+        this.controller(PostController);
+
     }
 
 }

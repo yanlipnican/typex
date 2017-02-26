@@ -1,12 +1,13 @@
-import { Controller, Post } from 'system/Controller';
+import { Request, Response } from 'express';
+import { Controller, Post, Get} from 'system/Controller';
 
 export class PostController extends Controller {
 
-    public route = 'post';
+    public route = '/test';
 
-    @Post('get-posts')
-    public get() {
-        console.log('workd');
+    @Get('/get-posts')
+    public get(req: Request, res: Response) {
+        res.json({msg: 'Hello world'});
     }
 
 }

@@ -2,7 +2,7 @@ export class Controller {
 
     public route: string;
 
-    public init(): void{
+    public onInit(): void{
 
     }
 
