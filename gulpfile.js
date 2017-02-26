@@ -15,7 +15,10 @@ gulp.task('typescript', function() {
           .pipe(webpack({
             resolve: {
               root: path.resolve(TMP),
-              extensions: ['', '.js', '.ts']
+              extensions: ['', '.js', '.ts'],
+              alias: {
+                handlebars: 'handlebars/dist/handlebars.min.js'
+              }
             },
             output: {
               filename: 'main.js'

@@ -1,5 +1,7 @@
 import * as Express from 'express';
 import { Application, Router } from 'express';
+import * as bodyParser from 'body-parser';
+import * as handlebars from 'express-handlebars';
 
 import { Controller, RequestType } from 'system/Controller';
 
@@ -8,7 +10,19 @@ export class Server {
     private port = process.env.PORT || 3600;
     private app: Application = Express();
 
+    private hbs_helpers = {};
+
     constructor() {
+
+        this.app.use(bodyParser.json());
+
+        const hbs = handlebars.create({
+            helpers: {},
+        });
+
+        this.app.engine('handlebars', hbs.engine);
+        this.app.set('view engine', 'handlebars');
+
         this.onInit();
 
         this.app.listen(this.port, () => {
@@ -42,7 +56,7 @@ export class Server {
 
         for (let route of routes) {
 
-            let method = route.method.value;
+            let method = route.method.bind(instance);
             let path: string = route.path;
             let type: RequestType = route.type;
 
