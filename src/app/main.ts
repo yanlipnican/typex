@@ -7,8 +7,6 @@ export class App extends Server{
 
     onInit() {
 
-        this.setPort(3000);
-
         this.controller(PostController);
 
     }

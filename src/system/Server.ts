@@ -5,7 +5,7 @@ import { Controller, RequestType } from 'system/Controller';
 
 export class Server {
 
-    private port = 3600;
+    private port = process.env.PORT || 3600;
     private app: Application = Express();
 
     constructor() {
@@ -62,7 +62,9 @@ export class Server {
     }
 
     /**
-     * Sets port of app, works just in onInit function
+     * Manually sets port of app,
+     * overrides process.env.PORT,
+     * works just in onInit function
      */
     public setPort(port: number): void {
         this.port = port;
