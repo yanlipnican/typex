@@ -1,4 +1,4 @@
-import { Server } from 'system/Server';
+import { Server } from 'typex/Server';
 
 // Controllers
 import { PostController } from 'app/controllers/PostController';

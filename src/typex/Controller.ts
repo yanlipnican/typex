@@ -1,20 +1,43 @@
+import { Server } from 'typex/Server';
+
 export class Controller {
 
     public route: string;
 
-    public onInit(): void{ }
+    /**
+     * Runs while initializing controller
+     */
+    public onInit(): void { }
 
-    protected response(data: any){
+    /**
+     * Runs after server start listen
+     */
+    public onStart(): void { }
+
+    /**
+     * Function attach hbs helper functions to response.
+     */
+    protected response(data: any): any{
 
         let response = data;
 
-        response.helpers = this.constructor.prototype._hbs_helpers;
+        if(Server.config().handlebars) {
 
-        for(let key in response.helpers){
-            response.helpers[key] = response.helpers[key].bind(this);
+          this.configureHBS(response);
+
         }
 
         return response;
+
+    }
+
+    private configureHBS(response: any) {
+
+        response.helpers = this.constructor.prototype._hbs_helpers;
+
+        for (let key in response.helpers) {
+            response.helpers[key] = response.helpers[key].bind(this);
+        }
 
     }
 
@@ -51,6 +74,14 @@ export function Get(path: string) {
 }
 
 export function HBS_helper(target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
+
+    if(!Server.config().handlebars){
+
+        console.warn('For hbs helpers to work, "handlebars" property must be set in txconfig.');
+
+        return descriptor;
+
+    }
 
     target._hbs_helpers = target._hbs_helpers || {};
     target._hbs_helpers[propertyKey] = descriptor.value;

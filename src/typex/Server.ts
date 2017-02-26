@@ -3,25 +3,27 @@ import { Application, Router } from 'express';
 import * as bodyParser from 'body-parser';
 import * as handlebars from 'express-handlebars';
 
-import { Controller, RequestType } from 'system/Controller';
+// this will probably be in tx suite
+let config = require('../../txconfig.json');
+
+import { Controller, RequestType } from 'typex/Controller';
 
 export class Server {
 
     private port = process.env.PORT || 3600;
     private app: Application = Express();
 
-    private hbs_helpers = {};
+    private controllers: Controller[] = [];
 
     constructor() {
 
         this.app.use(bodyParser.json());
 
-        const hbs = handlebars.create({
-            helpers: {},
-        });
+        if(Server.config().handlebars) {
 
-        this.app.engine('handlebars', hbs.engine);
-        this.app.set('view engine', 'handlebars');
+            this.configureHBS();
+
+        }
 
         this.onInit();
 
@@ -29,6 +31,8 @@ export class Server {
             console.log(`Listening on port "${this.port}"`);
 
             this.onStart();
+
+            this.controllers.map(controller => controller.onStart());
         });
     }
 
@@ -53,6 +57,8 @@ export class Server {
         let router: Router = Router();
 
         instance.onInit();
+
+        this.controllers.push(instance);
 
         for (let route of routes) {
 
@@ -90,6 +96,21 @@ export class Server {
 
     public getExpressApp(): Application {
         return this.app;
+    }
+
+    public static config(): any {
+        return config;
+    }
+
+    private configureHBS() {
+
+        const hbs = handlebars.create({
+            helpers: {},
+        });
+
+        this.app.engine('handlebars', hbs.engine);
+        this.app.set('view engine', 'handlebars');
+
     }
 
 }

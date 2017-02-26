@@ -1,14 +1,9 @@
 import { Request, Response } from 'express';
-import { Controller, Post, Get, HBS_helper} from 'system/Controller';
+import { Controller, Post, Get, HBS_helper} from 'typex/Controller';
 
 export class PostController extends Controller {
 
-    janko: string;
-
-    constructor() {
-        super();
-        this.janko = "janko";
-    }
+    janko = 'janko';
 
     @Get('/get-posts/:name')
     getPosts(req: Request, res: Response) {
