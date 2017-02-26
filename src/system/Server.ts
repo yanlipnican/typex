@@ -2,6 +2,8 @@ import { Controller, RequestType } from 'system/Controller';
 
 export class Server {
 
+    // router = new Router(this.route || '');
+
     constructor() {
         this.onInit();
     }
@@ -26,14 +28,12 @@ export class Server {
             let path: string = route.path;
             let type: RequestType = route.type;
 
-            // let router = new Router(instance.route || '';
-
             switch (type) {
                 case RequestType.GET:
-                    // router.get(path, method);
+                    // this.router.get(path, method);
                     break;
                 case RequestType.POST:
-                    // router.post(path, method);
+                    // this.router.post(path, method);
                     break;
             }
 
