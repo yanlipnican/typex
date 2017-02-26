@@ -30,8 +30,6 @@ export function Post(path: string) {
 
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
 
-        descriptor.value = descriptor.value.bind(target);
-
         target._routes = target._routes || [];
         target._routes.push({path, method: descriptor.value, type: RequestType.POST});
         return descriptor;
