@@ -1,2 +1,2 @@
-import { App } from 'app/main';
-var app = new App();
+import { App } from './app/main';
+const app = new App();

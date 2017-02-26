@@ -10,29 +10,42 @@ var OUTPUT = 'dist';
 var TMP = '.build-tmp';
 var INPUT = "src/**/*.ts";
 
-gulp.task('typescript', function() {
+gulp.task('typescript-webpack', function() {
       return gulp.src(TMP + '/main.ts')
           .pipe(webpack({
             resolve: {
               root: path.resolve(TMP),
-              extensions: ['', '.js', '.ts'],
+              extensions: ['', '.js', '.ts', '.node'],
               alias: {
                 handlebars: 'handlebars/dist/handlebars.min.js'
               }
             },
             output: {
-              filename: 'main.js'
+              filename: 'main.js',
+              libraryTarget: 'commonjs',
             },
             target: 'node',
+
             module: {
               loaders: [
                 { test: /\.ts$/, loader: 'ts-loader' },
                 { test: /\.json$/, loader: 'json-loader' },
+                { test: /\.node$/, loader: 'node-loader' },
               ],
             },
           }))
           .pipe(gulp.dest(OUTPUT));
 });
+
+gulp.task('typescript', function() {
+  var tsProject = ts.createProject( TMP + '/tsconfig.json');
+
+  return gulp.src(TMP + '/**/*.ts')
+      .pipe(tsProject())
+      .pipe(gulp.dest(OUTPUT));
+
+});
+
 
 gulp.task('copy-tsconfig', function(){
   return gulp.src(['src/tsconfig.json'])
@@ -40,7 +53,7 @@ gulp.task('copy-tsconfig', function(){
 });
 
 gulp.task('copy-system-files', function(){
-  return gulp.src(['system_files/**/*.ts'])
+  return gulp.src('system_files/**/*.ts')
       .pipe(gulp.dest(TMP));
 });
 

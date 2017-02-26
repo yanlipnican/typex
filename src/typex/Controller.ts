@@ -1,4 +1,4 @@
-import { Server } from 'typex/Server';
+import { Server } from './Server';
 
 export class Controller {
 
@@ -51,25 +51,13 @@ export enum RequestType {
 
 export function Post(path: string) {
 
-    return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
-
-        target._routes = target._routes || [];
-        target._routes.push({path, method: descriptor.value, type: RequestType.POST});
-        return descriptor;
-
-    };
+    return baseRequestDecorator(path, RequestType.POST);
 
 }
 
 export function Get(path: string) {
 
-    return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
-
-        target._routes = target._routes || [];
-        target._routes.push({path, method: descriptor.value, type: RequestType.GET});
-        return descriptor;
-
-    }
+    return baseRequestDecorator(path, RequestType.GET);
 
 }
 
@@ -87,5 +75,17 @@ export function HBS_helper(target: any, propertyKey: string, descriptor: TypedPr
     target._hbs_helpers[propertyKey] = descriptor.value;
 
     return descriptor;
+
+}
+
+export function baseRequestDecorator(path: string, type: RequestType) {
+
+    return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+
+        target._routes = target._routes || [];
+        target._routes.push({path, method: descriptor.value, type});
+        return descriptor;
+
+    }
 
 }

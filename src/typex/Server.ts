@@ -4,9 +4,10 @@ import * as bodyParser from 'body-parser';
 import * as handlebars from 'express-handlebars';
 
 // this will probably be in tx suite
-let config = require('../../txconfig.json');
 
-import { Controller, RequestType } from 'typex/Controller';
+const config = require('../../txconfig.json');
+
+import { Controller, RequestType } from './Controller';
 
 export class Server {
 
