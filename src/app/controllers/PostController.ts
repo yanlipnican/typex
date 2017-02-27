@@ -13,16 +13,14 @@ export class PostController extends Controller {
 
         let saved = await post.save();
 
-        let posts = await post.findSimilar();
-
-        res.render('main', this.response({ posts }));
+        res.render('main', this.response({  }));
 
     }
 
     @Get('/get-posts')
     async getPosts(req: Request, res: Response) {
 
-        let posts = await Post.find();
+        let posts = await new Post().find();
 
         res.render('main', this.response({ posts }));
 
