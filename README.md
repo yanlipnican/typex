@@ -3,6 +3,8 @@ Typescript mini framework using express for building Node backend apps <br>
 
 **IN DEVELOPMENT**
 
+Goal is to make symfony (php) like framework for express in typescript.
+
 TODOS: 
 * Create Build suite (tx g controller UserController)
 * Better integrate MongoDB (mongoose)
