@@ -5,7 +5,7 @@ I also write **cli** for framework. They will eventually merge into one project.
 
 **IN DEVELOPMENT**
 
-Goal is to make symfony (php) like framework for express in typescript.
+Goal is to make symfony(php), spring(java - it also uses decorators) like framework for express in typescript.
 
 TODOS: 
 * Create Build suite (tx g controller UserController)
