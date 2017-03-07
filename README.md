@@ -79,6 +79,13 @@ interface IPost {
     title: string;
 }
 
+/**
+* It uses mongoose driver,
+* but i will rewrite Model class based on mongodb driver from npmjs,
+* becouse it has some
+* limitations for me.
+*/
+
 export class Post extends Model<IPost> {
     
     // just specify model name in db
