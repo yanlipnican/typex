@@ -1,6 +1,8 @@
 # typex
 Typescript mini framework using express for building Node backend apps <br>
 
+I also write **cli** for framework. They will eventually merge into one project. But its even more "work in progress" :D .<br>
+
 **IN DEVELOPMENT**
 
 Goal is to make symfony (php) like framework for express in typescript.
