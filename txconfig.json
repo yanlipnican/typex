@@ -1,7 +1,0 @@
-{
-  "handlebars": true,
-  "mongo" : {
-    "address": "localhost",
-    "database": "test"
-  }
-}
