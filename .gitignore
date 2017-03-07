@@ -1,5 +1,5 @@
 node_modules/
-lib/
+/lib
 index.js
 index.d.ts
 .vscode
