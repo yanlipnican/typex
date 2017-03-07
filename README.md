@@ -82,8 +82,7 @@ interface IPost {
 /**
 * It uses mongoose driver,
 * but i will write Model class based on mongodb driver from npmjs,
-* becouse it has some
-* limitations for me.
+* because it has some limitations.
 */
 
 export class Post extends Model<IPost> {
