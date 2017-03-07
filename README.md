@@ -1,9 +1,11 @@
 # typex
 Typescript mini framework using express for building Node backend apps <br>
 
+I also write **cli** for framework. They will eventually merge into one project. But its even more "work in progress" :D .<br>
+
 **IN DEVELOPMENT**
 
-Goal is to make symfony (php) like framework for express in typescript.
+Goal is to make symfony(php), spring(java - it also uses decorators) like framework for express in typescript.
 
 TODOS: 
 * Create Build suite (tx g controller UserController)
@@ -76,6 +78,12 @@ import { Model } from 'typex/Mongo';
 interface IPost {
     title: string;
 }
+
+/**
+* It uses mongoose driver,
+* but i will write Model class based on mongodb driver from npmjs,
+* because it has some limitations.
+*/
 
 export class Post extends Model<IPost> {
     
