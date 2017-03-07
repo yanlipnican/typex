@@ -81,7 +81,7 @@ interface IPost {
 
 /**
 * It uses mongoose driver,
-* but i will rewrite Model class based on mongodb driver from npmjs,
+* but i will write Model class based on mongodb driver from npmjs,
 * becouse it has some
 * limitations for me.
 */
