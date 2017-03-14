@@ -53,6 +53,7 @@ function inject(target: any) {
             
             if(typeof singletons[klass.name] === 'undefined'){
                 // TODO add injectables to dictionary, becouse they are not decored inside metadata
+                //                                v
                 singletons[klass.name] = inject(klass);    
             }
     
