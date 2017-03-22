@@ -1,26 +1,14 @@
-import 'reflect-metadata';
+import { injectable, Container } from './decorators';
 
-let dependencies = {};
-let singletons = {};
-
-function injectable(target: any) {
-
-    dependencies[target.name] = target;
-
-    return target;
+@injectable
+class OMG {
+    name = 'asd';
 }
 
 @injectable
 class Di {
-    
-    constructor(private omg: OMG) {}
-
     name = 'dasd';
-}
-
-@injectable
-class OMG {
-    name = 'janko';
+    constructor(private omg: OMG) {}
 }
 
 @injectable
@@ -32,38 +20,10 @@ class i{
     }
 }
 
-function construct(constructor, args) {
-    function F() : void {
-        constructor.apply(this, args);
-    }
-    F.prototype = constructor.prototype;
-    return new F();
-}
+let container = new Container();
 
-function inject(target: any) {
+container.add(Di);
+container.add(OMG);
+container.add(i);
 
-    let injections = Reflect.getMetadata("design:paramtypes", target);
-    let args = [];
-    
-    if(typeof injections !== 'undefined'){
-
-        console.log(injections);
-
-        for(let klass of injections){
-            
-            if(typeof singletons[klass.name] === 'undefined'){
-                // TODO add injectables to dictionary, becouse they are not decored inside metadata
-                //                                v
-                singletons[klass.name] = inject(klass);    
-            }
-    
-            args.push(singletons[klass.name]);
-    
-        }
-    }
-
-    return construct(target, args);
-
-}
-
-console.log(inject(i));
+console.log(container.bootstrap(i));
