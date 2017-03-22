@@ -1,5 +1,9 @@
 import { injectable, Container } from './decorators';
 
+/**
+ * Classes needs to be in order 
+ */
+
 @injectable
 class OMG {
     name = 'asd';

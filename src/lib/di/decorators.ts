@@ -12,6 +12,14 @@ export class Container{
 
     }
 
+    public construct(constructor, args) {
+        function F() : void {
+            constructor.apply(this, args);
+        }
+        F.prototype = constructor.prototype;
+        return new F();
+    }
+
     public inject(target: any): any {
 
         if(typeof this.instances[target.name] !== 'undefined'){
@@ -35,7 +43,7 @@ export class Container{
             }
         }
 
-        let instance = construct(target, args);
+        let instance = this.construct(target, args);
 
         this.instances[target.name] = instance;
 
@@ -51,17 +59,10 @@ export class Container{
 }
 
 export function injectable(target: any) {
-
-    // some injectable shit
+    /**
+     * to have design:paramtypes, class has to be decorated.
+     */
     return target;
-}
-
-function construct(constructor, args) {
-    function F() : void {
-        constructor.apply(this, args);
-    }
-    F.prototype = constructor.prototype;
-    return new F();
 }
 
 
