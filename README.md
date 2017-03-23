@@ -7,7 +7,8 @@ I also write **cli** for framework. They will eventually merge into one project.
 
 Goal is to make symfony(php), spring(java - it also uses decorators) like framework for express in typescript.
 
-TODOS: 
+TODOS:
+* Dependency-injection
 * Create Build suite (tx g controller UserController)
 * Better integrate MongoDB (mongoose)
 * Integrate other DB drivers
