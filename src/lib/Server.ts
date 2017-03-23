@@ -9,14 +9,14 @@ const config = {
     handlebars: true
 }
 
-import { Controller, RequestType } from './Controller';
+import { Module } from './Module';
 
 export class Server {
 
     private port = process.env.PORT || 3600;
     private app: Application = Express();
 
-    private controllers: Controller[] = [];
+    private modules: Module[] = [];
 
     constructor() {
 
@@ -30,13 +30,16 @@ export class Server {
 
         this.onInit();
 
+        this.bootstrapModules();
+
         this.app.listen(this.port, () => {
-            console.log(`Listening on port "${this.port}"`);
-
             this.onStart();
-
-            this.controllers.map(controller => controller.onStart());
+            this.modules.map(module => module.onStart());
         });
+    }
+
+    public module(module: any){
+        this.modules.push(module);
     }
 
     /**
@@ -49,40 +52,6 @@ export class Server {
      * Part of lifecycle after app started listening
      */
     public onStart(): void {}
-
-    /**
-     * Attach controller extended class
-     */
-    public controller(controller: typeof Controller): void {
-
-        let instance = new controller();
-        let routes = instance.constructor.prototype._routes;
-        let router: Router = Router();
-
-        instance.onInit();
-
-        this.controllers.push(instance);
-
-        for (let route of routes) {
-
-            let method = route.method.bind(instance);
-            let path: string = route.path;
-            let type: RequestType = route.type;
-
-            switch (type) {
-                case RequestType.GET:
-                    router.get(path, method);
-                    break;
-                case RequestType.POST:
-                    router.post(path, method);
-                    break;
-            }
-
-        }
-
-        this.app.use(instance.route || '/', router);
-
-    }
 
     /**
      * Manually sets port of app,
@@ -114,6 +83,10 @@ export class Server {
         this.app.engine('handlebars', hbs.engine);
         this.app.set('view engine', 'handlebars');
 
+    }
+
+    private bootstrapModules() {
+        this.modules = this.modules.map((module: any) => new module(this.app));
     }
 
 }
