@@ -1,26 +1,40 @@
 import 'reflect-metadata';
+
 import { construct } from '../utils';
+import { injectionProperty, functionHashmap } from './interfaces';
 
 export class Container{
 
-    private instances: {[key:string]: any} = {};
+    private instances: functionHashmap = {};
+    private dependencies: functionHashmap = {};
 
-    private dependencies: {[key:string]: any} = {};
-
-    public add(klass: any): void{
+    public add(klass: Function): void{
 
         this.dependencies[klass.name] = klass;
 
     }
 
-    public inject(target: any): any {
+    public inject(target: Function): any {
 
         if(typeof this.instances[target.name] !== 'undefined'){
             return this.instances[target.name];
         }
 
-        let property_injections = Reflect.getMetadata('propInjectTypes', target.prototype);
+        let instance = this.injectConstructorArguments(target);
 
+        this.injectProperties(instance, target);
+
+        this.instances[target.name] = instance;
+
+        return instance;
+
+    }
+
+    public bootstrap(klass: any) {
+        return this.inject(klass);
+    }
+
+    private injectConstructorArguments(target: Function): Function {
         let injections = Reflect.getMetadata("design:paramtypes", target);
 
         let args = [];
@@ -38,17 +52,30 @@ export class Container{
             }
         }
 
-        let instance = construct(target, args);
-
-        this.instances[target.name] = instance;
-
-
-        return instance;
-
+        return construct(target, args);
     }
 
-    public bootstrap(klass: any) {
-        return this.inject(klass);
+    private injectProperties(instance: Function, target: Function): void {
+
+        let propertyInjections: injectionProperty[] = Reflect.getMetadata('propInjectTypes', target.prototype);
+        
+        if(typeof propertyInjections === 'undefined'){
+            return;
+        }
+
+        for(let item of propertyInjections){
+        
+            let key = item.key;
+            let klass = item.type;
+
+            if(typeof this.instances[klass.name] === 'undefined'){
+                this.instances[klass.name] = this.inject(klass);    
+            }
+
+            instance[key] = this.instances[klass.name];
+            
+        }
+
     }
 
 }

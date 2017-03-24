@@ -1,3 +1,5 @@
+import { injectionProperty } from './interfaces';
+
 export function injectable(target: any) {
     /**
      * to have design:paramtypes, class has to be decorated.
@@ -11,11 +13,13 @@ export function inject(target: any, key: string) {
 
     let type = Reflect.getMetadata('design:type', target, key);
 
-    let items = [{key, type}]
+    let items: injectionProperty[] = [{key, type}]
 
     if(Reflect.hasMetadata(metadatakey, target)){
-        let additionalItems = Reflect.getMetadata(metadatakey, target);
+
+        let additionalItems: injectionProperty[] = Reflect.getMetadata(metadatakey, target);
         items = items.concat(additionalItems);
+        
     }
 
     Reflect.defineMetadata(metadatakey, items, target);
