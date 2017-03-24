@@ -8,12 +8,6 @@ export class Container{
     private instances: functionHashmap = {};
     private dependencies: functionHashmap = {};
 
-    public add(klass: Function): void{
-
-        this.dependencies[klass.name] = klass;
-
-    }
-
     public inject(target: Function): any {
 
         if(typeof this.instances[target.name] !== 'undefined'){
@@ -35,6 +29,7 @@ export class Container{
     }
 
     private injectConstructorArguments(target: Function): Function {
+
         let injections = Reflect.getMetadata("design:paramtypes", target);
 
         let args = [];

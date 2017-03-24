@@ -20,9 +20,7 @@ export class Module{
         this.onInit();
 
         this.bootstrap();
-
-        this.initServices();
-
+        
         this.initControllers();
 
         this.app.use('/', this.router);
@@ -35,16 +33,6 @@ export class Module{
     
         this.controllers.map(controller => controller.onInit());
     
-    }
-
-    private initServices() {
-        this.services.map(service => {
-            
-            if(typeof service.onInit !== 'undefined'){
-                service.onInit()
-            }
-
-        }); 
     }
 
     public onStart() {
@@ -66,12 +54,6 @@ export class Module{
     
     }
 
-    public service(service: any) {
-        
-        this.container.add(service);
-        this.services.push(service);
-
-    }
 
     private bootstrapServices() {
 
