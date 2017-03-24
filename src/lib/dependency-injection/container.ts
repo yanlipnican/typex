@@ -18,7 +18,9 @@ export class Container{
         if(typeof this.instances[target.name] !== 'undefined'){
             return this.instances[target.name];
         }
-    
+
+        let property_injections = Reflect.getMetadata('propInjectTypes', target.prototype);
+
         let injections = Reflect.getMetadata("design:paramtypes", target);
 
         let args = [];

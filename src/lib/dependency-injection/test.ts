@@ -1,4 +1,4 @@
-import { injectable } from './decorators';
+import { injectable, inject } from './decorators';
 import { Container } from './container';
 
 /**
@@ -19,9 +19,11 @@ class Di {
 @injectable
 class i{
     
-    name: string;
+    @inject
+    test_omg: OMG;
+
     constructor(private di: Di, private omg: OMG){
-        this.name = di.name;
+        
     }
 }
 
@@ -31,4 +33,7 @@ container.add(Di);
 container.add(OMG);
 container.add(i);
 
+
 console.log(container.bootstrap(i));
+
+
