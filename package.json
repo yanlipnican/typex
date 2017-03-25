@@ -16,7 +16,6 @@
     "express": "^4.14.1",
     "express-handlebars": "^3.0.0",
     "mongodb": "^2.2.24",
-    "mongoose": "^4.8.5",
     "reflect-metadata": "^0.1.10"
   },
   "devDependencies": {
@@ -24,7 +23,6 @@
     "@types/express": "^4.0.35",
     "@types/express-handlebars": "0.0.29",
     "@types/mongodb": "^2.1.41",
-    "@types/mongoose": "^4.7.8",
     "@types/node": "^7.0.5",
     "gulp": "^3.9.1",
     "gulp-sync": "^0.1.4",

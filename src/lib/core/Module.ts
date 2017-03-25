@@ -1,4 +1,4 @@
-import { Container } from './dependency-injection';
+import { Container } from '../dependency-injection';
 import { Controller, RequestType } from './Controller';
 import { Application, Router } from 'express';
 
