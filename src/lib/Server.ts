@@ -35,11 +35,14 @@ export class Server {
         this.app.listen(this.port, () => {
             this.onStart();
             this.modules.map(module => module.onStart());
+            this.modules.map(module => module._onStart());
         });
     }
 
     public module(module: any){
+        
         this.modules.push(module);
+
     }
 
     /**

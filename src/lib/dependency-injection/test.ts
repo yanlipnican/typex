@@ -29,11 +29,6 @@ class i{
 
 let container = new Container();
 
-container.add(Di);
-container.add(OMG);
-container.add(i);
-
-
 console.log(container.bootstrap(i));
 
 

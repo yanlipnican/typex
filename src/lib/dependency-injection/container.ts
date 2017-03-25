@@ -6,7 +6,6 @@ import { injectionProperty, functionHashmap } from './interfaces';
 export class Container{
 
     private instances: functionHashmap = {};
-    private dependencies: functionHashmap = {};
 
     public inject(target: Function): any {
 
@@ -26,6 +25,42 @@ export class Container{
 
     public bootstrap(klass: any) {
         return this.inject(klass);
+    }
+
+    public hasInstance(key: string): boolean {
+
+        return typeof this.instances[key] !== 'undefined';
+
+    }
+
+    public getInstance(key: string): Function {
+        
+        return this.instances[key];
+
+    }
+
+    public onInit() {
+        for(let key in this.instances){
+
+            let instance: any = this.instances[key];
+
+            if(typeof instance.onInit !== 'undefined') {
+                instance.onInit();
+            }
+
+        };
+    }
+
+    public onStart() {
+        for(let key in this.instances){
+
+            let instance: any = this.instances[key];
+
+            if(typeof instance.onInit !== 'undefined') {
+                instance.onStart();
+            }
+
+        };
     }
 
     private injectConstructorArguments(target: Function): Function {

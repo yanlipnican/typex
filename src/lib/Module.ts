@@ -20,25 +20,19 @@ export class Module{
         this.onInit();
 
         this.bootstrap();
-        
-        this.initControllers();
+
+        this.container.onInit();
 
         this.app.use('/', this.router);
 
     }
 
-    public onInit() {}
+    public onInit() { }
 
-    private initControllers() {
-    
-        this.controllers.map(controller => controller.onInit());
-    
-    }
+    public onStart() { }
 
-    public onStart() {
-        
-        this.controllers.map(controller => controller.onStart())
-
+    public _onStart() {
+        this.container.onStart();
     }
 
     public bootstrap() {
@@ -72,8 +66,6 @@ export class Module{
         let instance = this.container.bootstrap(controller);
         let routes = instance.constructor.prototype._routes;
         let router: Router = Router();
-
-        instance.onInit();
 
         for (let route of routes) {
 
