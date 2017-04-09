@@ -3,5 +3,9 @@ export function construct(constructor, args) {
         constructor.apply(this, args);
     }
     F.prototype = constructor.prototype;
-    return new F();
+    try{
+        return new F();
+    } catch(err) {
+        throw new Error(err);
+    }
 }

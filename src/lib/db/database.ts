@@ -96,4 +96,33 @@ export class Database {
 
     }
 
+    public findOne(collectionName: string, query:any): Promise<any> {
+
+        let collection = this.mongo.collection(collectionName);
+
+        return collection.findOne(query)
+
+    }
+
+    public count(collectionName: string, query:any = {}): Promise<any> {
+
+        return this.mongo.collection(collectionName).count(query);
+
+    }
+
+   public updateOne(collectionName: string, query:any = {}, data = {}): Promise<any> {
+
+        return new Promise((resolve, reject) => {
+            this.mongo.collection(collectionName).updateOne(query, { $set : data }, (err, res) => {
+                if(err){
+                    reject(err);
+                    return;
+                }
+
+                resolve(res.result.n);
+            });
+        })
+
+    }
+
 }

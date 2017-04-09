@@ -89,7 +89,15 @@ export class Server {
     }
 
     private bootstrapModules() {
-        this.modules = this.modules.map((module: any) => new module(this.app));
+        this.modules = this.modules.map((module: any) => {
+            
+            try{
+                return new module(this.app);
+            } catch(err) {
+                throw new Error(err);
+            } 
+        
+        });
     }
 
 }
