@@ -91,7 +91,7 @@ export function baseRequestDecorator(path: string, type: RequestType) {
 
 }
 
-export function Middleware(middleware: Function) {
+export function middleware(middleware: Function) {
 
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
 
