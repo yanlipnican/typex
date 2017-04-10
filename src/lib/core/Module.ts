@@ -64,7 +64,8 @@ export class Module{
     private bootstrapController(controller: Controller): any {
 
         let instance = this.container.bootstrap(controller);
-        let routes = instance.constructor.prototype._routes;
+        let routes = instance.constructor.prototype._routes || [];
+        let middlewares = instance.constructor.prototype._middlewares || [];
         let router: Router = Router();
 
         for (let route of routes) {
@@ -72,6 +73,13 @@ export class Module{
             let method = route.method.bind(instance);
             let path: string = route.path;
             let type: RequestType = route.type;
+
+            for(let item of middlewares){
+                if(item.propertyKey === route.propertyKey){
+                    let middleware = this.container.bootstrap(item.middleware);
+                    router.use(path, middleware.use.bind(middleware))
+                }
+            }
 
             switch (type) {
                 case RequestType.GET:

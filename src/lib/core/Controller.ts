@@ -1,4 +1,5 @@
 import { Server } from './Server';
+import { IMiddleware } from './Middleware/Middleware'; 
 
 export class Controller {
 
@@ -83,7 +84,19 @@ export function baseRequestDecorator(path: string, type: RequestType) {
     return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
 
         target._routes = target._routes || [];
-        target._routes.push({path, method: descriptor.value, type});
+        target._routes.push({path, method: descriptor.value, type, propertyKey});
+        return descriptor;
+
+    }
+
+}
+
+export function Middleware(middleware: Function) {
+
+    return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+
+        target._middlewares = target._middlewares || [];
+        target._middlewares.push({middleware, propertyKey});
         return descriptor;
 
     }
