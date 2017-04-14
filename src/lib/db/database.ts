@@ -1,6 +1,11 @@
 import { MongoClient, Db } from 'mongodb';
 import { injectable } from '../dependency-injection';
 import { construct } from '../utils/construct';
+import { plainToClass, deserialize } from 'class-transformer';
+import { ClassType } from './interfaces';
+
+import 'reflect-metadata';
+import 'es6-shim';
 
 @injectable
 export class Database {
@@ -11,7 +16,7 @@ export class Database {
     public async connect(url: string) {
 
         const promise = new Promise((resolve, reject) => {
-
+            
             MongoClient.connect(url, (err, db) => {
 
                 if(err){
@@ -52,13 +57,11 @@ export class Database {
 
     }
 
-    public insert(collectionName: string, data: any): Promise<any> {
+    public insert<T>(cls: ClassType<T>, data: any): Promise<any> {
 
         return new Promise((resolve, reject) => { 
 
-            let collection = this.mongo.collection(collectionName);
-
-            collection.insert(data, (err, res) => {
+            this.getCollectionOfModel(cls).insert(data, (err, res) => {
 
                 if(err){
                     reject(err);
@@ -66,7 +69,7 @@ export class Database {
                     return;
                 }
 
-                resolve(res);
+                resolve(res.result.n);
 
             });
 
@@ -74,19 +77,19 @@ export class Database {
         
     }
 
-    public find(collectionName: string, query:any): Promise<any> {
+    public find<T>(cls: ClassType<T>, query:any): Promise<T[]> {
 
         return new Promise((resolve, reject) => { 
 
-            let collection = this.mongo.collection(collectionName);
-
-            collection.find(query).toArray((err, res) => {
+            this.getCollectionOfModel(cls).find(query).toArray((err, res) => {
 
                 if(err){
                     reject(err);
                     console.error(err);
                     return;
                 }
+
+                res = res.map(d => deserialize(cls, JSON.stringify(d)));
 
                 resolve(res);
 
@@ -96,24 +99,27 @@ export class Database {
 
     }
 
-    public findOne(collectionName: string, query:any): Promise<any> {
+    public async findOne<T>(cls: ClassType<T>, query:any): Promise<T> {
 
-        let collection = this.mongo.collection(collectionName);
+        let json: {} = await this.getCollectionOfModel(cls).findOne(query); // -> returns plain json
 
-        return collection.findOne(query)
+        if(json === null) return null;
 
-    }
-
-    public count(collectionName: string, query:any = {}): Promise<any> {
-
-        return this.mongo.collection(collectionName).count(query);
+        //return plainToClass(cls, json);
+        return deserialize(cls, JSON.stringify(json));
 
     }
 
-   public updateOne(collectionName: string, query:any = {}, data = {}): Promise<any> {
+    public count<T>(cls: ClassType<T>, query:any = {}): Promise<number> {
+
+        return this.getCollectionOfModel(cls).count(query);
+
+    }
+
+    public updateOne<T>(cls: ClassType<T>, query:any = {}, data = {}): Promise<any> {
 
         return new Promise((resolve, reject) => {
-            this.mongo.collection(collectionName).updateOne(query, { $set : data }, (err, res) => {
+            this.getCollectionOfModel(cls).updateOne(query, { $set : data }, (err, res) => {
                 if(err){
                     reject(err);
                     return;
@@ -122,6 +128,13 @@ export class Database {
                 resolve(res.result.n);
             });
         })
+
+    }
+
+    private getCollectionOfModel<T>(cls: ClassType<T>){
+
+        let collectionName = Reflect.getMetadata('collectionName', cls);
+        return this.mongo.collection(collectionName);
 
     }
 

@@ -13,7 +13,7 @@ import { Module } from './Module';
 
 export class Server {
 
-    private port = process.env.PORT || 3600;
+    private port = process.env.TYPEX_APP_PORT || 3600;
     private app: Application = Express();
 
     private modules: Module[] = [];
