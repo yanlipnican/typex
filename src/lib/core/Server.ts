@@ -21,6 +21,7 @@ export class Server {
     constructor() {
 
         this.app.use(bodyParser.json());
+        this.app.use(Express.static('public'));
 
         if(Server.config().handlebars) {
 
