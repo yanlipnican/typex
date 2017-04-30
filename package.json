@@ -1,6 +1,6 @@
 {
   "name": "typex-framework",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "typescript express framework",
   "main": "index.js",
   "module": "index.js",
