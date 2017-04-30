@@ -85,6 +85,7 @@ export class Server {
 
         const hbs = handlebars.create({
             helpers: {},
+            defaultLayout: 'main'
         });
 
         this.app.engine('handlebars', hbs.engine);
