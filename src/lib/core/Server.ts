@@ -73,6 +73,10 @@ export class Server {
         return this.app;
     }
 
+    public use(middleware) {
+        this.app.use(middleware);
+    }
+
     public static config(): any {
         return config;
     }
