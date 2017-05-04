@@ -1,101 +1,21 @@
-# typex
-Typescript mini framework using express for building Node backend apps <br>
+# Typex framework
+**(Not yet production ready, but soon...)**
 
-I also write **cli** for framework. They will eventually merge into one project. But its even more "work in progress" :D .<br>
+Typex is lightweight **typescript** framework built on top of **Express.js**. It adds bit of opinion to unopinionated 
+world of node, to help you make a better software and javascript development process more pleasant. It's goal is to provide
+Spring(Java)/Symfony(PHP) like project structure such as controllers, services and **dependency injection**. It leverages 
+typescript classes, annotations and few packages to jump start you to do a very good structured and readable code.
 
-**IN DEVELOPMENT**
+## Documentation
+* Demo project is [here](https://yanlipnican.gitbooks.io/typex-framework/).
+* You can find documentation [here](https://yanlipnican.gitbooks.io/typex-framework/).
 
-Goal is to make symfony(php), spring(java - it also uses decorators) like framework for express in typescript.
-
-TODOS:
-* Dependency-injection
-* Create Build suite (tx g controller UserController)
-* Better integrate MongoDB (mongoose)
-* Integrate other DB drivers
-
-## Example usage
-
-This will definitely change :)
-
-#### App
-
-```typescript
-import { Server } from 'typex/Server';
-
-import * as mongoose from 'mongoose';
-
-// Controllers
-import { PostController } from './controllers/PostController';
-
-export class App extends Server{
-
-    onInit() {
-
-        mongoose.connect(`mongodb://vagrant.dev/testDB`);
-
-        this.controller(PostController);
-
-    }
-
-}
-```
-
-#### Controller
-
-```typescript
-import { Request, Response } from 'express';
-import { Controller, Get, HBS_helper} from 'typex/Controller';
-
-import { Post } from '../models/Post';
-
-
-export class PostController extends Controller {
-
-    // Framework uses typescript decorators
-    // @Post(url)
-    @Get('/get-posts')
-    async getPosts(req: Request, res: Response) {
-
-        let posts = await new Post().find();
-
-        res.render('main', this.response({ posts }));
-
-    }
-   
-    // if handlebars is enabled you can specify helper function
-    // for this controller
-    @HBS_helper
-    puppy(name: string) {
-        return 'PUPPY :3 -> ' + name;
-    }
-
-}
-```
-#### Model
-
-```typescript
-import { Model } from 'typex/Mongo';
-
-interface IPost {
-    title: string;
-}
-
-/**
-* It uses mongoose driver,
-* but i will write Model class based on mongodb driver from npmjs,
-* because it has some limitations.
-*/
-
-export class Post extends Model<IPost> {
-    
-    // just specify model name in db
-    name = 'Post';
-
-    // and db types of model
-    options = {
-        title : { type: String }
-    };
-
-}
-
-```
+## Development
+1. Clone project.
+2. Install dependencies: ```npm install``` (use **yarn** if you are cool enough).
+3. Run ```npm link``` to link this package to your global node_modules.
+4. Create test project or clone demo above.
+5. Install dependencies: ```npm install```.
+6. Remove typex from node_modules ```rm -rf node_modules/typex-framework```.
+7. Run ```npm link typex-framework``` to link package from your global node modules to your demo project.
+8. In typex directory run ```npm run dev``` and start tinkering.Your edited code will be accessible from demo project.
