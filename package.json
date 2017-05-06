@@ -1,39 +1,43 @@
 {
-  "name": "@typex/core",
-  "version": "0.2.2",
-  "description": "Typescript express framework",
-  "main": "index.js",
-  "module": "index.js",
-  "typings": "index.d.ts",
-  "types": "index.d.ts",
-  "repository": {
-    "url": "https://github.com/typex-framework/typex"
-  },
-  "scripts": {
-    "prepublish": "npm run build",
-    "build": "node ./node_modules/gulp/bin/gulp.js build",
-    "dev": "node ./node_modules/gulp/bin/gulp.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.16.1",
-    "class-transformer": "^0.1.6",
-    "es6-shim": "^0.35.3",
-    "express": "^4.14.1",
-    "express-handlebars": "^3.0.0",
-    "mongodb": "^2.2.24",
-    "reflect-metadata": "^0.1.10"
-  },
-  "devDependencies": {
-    "@types/body-parser": "0.0.34",
-    "@types/express": "^4.0.35",
-    "@types/express-handlebars": "0.0.29",
-    "@types/mongodb": "^2.1.41",
-    "@types/node": "^7.0.5",
-    "gulp": "^3.9.1",
-    "gulp-sync": "^0.1.4",
-    "gulp-typescript": "^3.1.5",
-    "typescript": "^2.2.1"
-  }
+    "name": "@typex-framework/core",
+    "version": "0.2.4",
+    "description": "Typescript express framework",
+    "main": "index.js",
+    "module": "index.js",
+    "typings": "index.d.ts",
+    "types": "index.d.ts",
+    "private": false,
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "url": "https://github.com/typex-framework/typex"
+    },
+    "scripts": {
+        "prepublish": "npm run build",
+        "build": "node ./node_modules/gulp/bin/gulp.js build",
+        "dev": "node ./node_modules/gulp/bin/gulp.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.16.1",
+        "class-transformer": "^0.1.6",
+        "es6-shim": "^0.35.3",
+        "express": "^4.14.1",
+        "express-handlebars": "^3.0.0",
+        "mongodb": "^2.2.24",
+        "reflect-metadata": "^0.1.10"
+    },
+    "devDependencies": {
+        "@types/body-parser": "0.0.34",
+        "@types/express": "^4.0.35",
+        "@types/express-handlebars": "0.0.29",
+        "@types/mongodb": "^2.1.41",
+        "@types/node": "^7.0.5",
+        "gulp": "^3.9.1",
+        "gulp-sync": "^0.1.4",
+        "gulp-typescript": "^3.1.5",
+        "typescript": "^2.2.1"
+    }
 }

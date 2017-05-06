@@ -8,7 +8,7 @@ import 'reflect-metadata';
 import 'es6-shim';
 
 @injectable
-export class Database {
+export class MongoDatabase {
 
     private mongo: Db;
     private dbPromise: Promise<Db>;
@@ -16,7 +16,7 @@ export class Database {
     public async connect(url: string) {
 
         const promise = new Promise((resolve, reject) => {
-            
+
             MongoClient.connect(url, (err, db) => {
 
                 if(err){
@@ -27,8 +27,8 @@ export class Database {
 
                 this.mongo = db;
 
-                console.log('connected to db');
-            
+                console.log('connected to MongoDatabase');
+
             });
 
         });
@@ -40,7 +40,7 @@ export class Database {
     }
 
     public async isConnected(): Promise<boolean> {
-        
+
         if(typeof this.dbPromise === 'undefined') return false;
 
         try {
@@ -48,7 +48,7 @@ export class Database {
             await this.dbPromise;
 
         } catch (err) {
-            
+
             return false;
 
         }
@@ -59,7 +59,7 @@ export class Database {
 
     public insert<T>(cls: ClassType<T>, data: any): Promise<any> {
 
-        return new Promise((resolve, reject) => { 
+        return new Promise((resolve, reject) => {
 
             this.getCollectionOfModel(cls).insert(data, (err, res) => {
 
@@ -74,12 +74,12 @@ export class Database {
             });
 
         });
-        
+
     }
 
     public find<T>(cls: ClassType<T>, query:any): Promise<T[]> {
 
-        return new Promise((resolve, reject) => { 
+        return new Promise((resolve, reject) => {
 
             this.getCollectionOfModel(cls).find(query).toArray((err, res) => {
 

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-export function Model(collectionName: string) {
+export function MongoModel(collectionName: string) {
 
     return (target: any) => {
 
