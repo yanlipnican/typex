@@ -40,13 +40,11 @@ export class Module{
     }
 
     public controller(controller: any) {
-
         this.controllers.push(controller);
-
     }
 
-    public service(service: any) {
-        this.container.addInjectable(service);
+    public service(provider, injectable?) {
+        this.container.addInjectable(provider, injectable);
     }
 
     private bootstrapControllers() {
