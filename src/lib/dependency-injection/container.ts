@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-
 import {construct} from '../utils';
 import {injectionProperty, functionHashmap} from './interfaces';
 import {InjectableIsAddedException, InjectableIsNotAddedException} from './exceptions';

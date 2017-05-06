@@ -1,13 +1,13 @@
 {
-  "name": "typex-framework",
-  "version": "0.2.1",
-  "description": "typescript express framework",
+  "name": "@typex/core",
+  "version": "0.2.2",
+  "description": "Typescript express framework",
   "main": "index.js",
   "module": "index.js",
   "typings": "index.d.ts",
   "types": "index.d.ts",
   "repository": {
-    "url": "https://github.com/yanlipnican/typex"
+    "url": "https://github.com/typex-framework/typex"
   },
   "scripts": {
     "prepublish": "npm run build",

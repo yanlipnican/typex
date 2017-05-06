@@ -7,8 +7,8 @@ Spring(Java)/Symfony(PHP) like project structure such as controllers, services a
 typescript classes, annotations and few packages to jump start you to do a very good structured and readable code.
 
 ## Documentation
-* Demo project is [here](https://yanlipnican.gitbooks.io/typex-framework/).
-* You can find documentation [here](https://yanlipnican.gitbooks.io/typex-framework/).
+* Demo project is [here](https://typex-framework.gitbooks.io/typex-framework).
+* You can find documentation [here](https://typex-framework.gitbooks.io/typex-framework).
 
 ## Development
 1. Clone project.
