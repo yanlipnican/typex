@@ -10,8 +10,6 @@ export class Module{
 
     private controllers: Controller[] = [];
 
-    private services: any[] = [];
-
     public router: Router = Router();
 
     constructor(app: Application) {
@@ -36,27 +34,23 @@ export class Module{
     }
 
     public bootstrap() {
-    
-        this.bootstrapServices();
+
         this.bootstrapControllers();
-    
+
     }
 
     public controller(controller: any) {
-    
+
         this.controllers.push(controller);
-    
+
     }
 
-
-    private bootstrapServices() {
-
-        this.services = this.services.map(service => this.container.bootstrap(service));
-
+    public service(service: any) {
+        this.container.addInjectable(service);
     }
 
     private bootstrapControllers() {
-        
+
         this.controllers = this.controllers.map(controller => this.bootstrapController(controller));
 
     }

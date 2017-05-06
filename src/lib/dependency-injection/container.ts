@@ -1,15 +1,17 @@
 import 'reflect-metadata';
 
-import { construct } from '../utils';
-import { injectionProperty, functionHashmap } from './interfaces';
+import {construct} from '../utils';
+import {injectionProperty, functionHashmap} from './interfaces';
+import {InjectableIsAddedException, InjectableIsNotAddedException} from './exceptions';
 
-export class Container{
+export class Container {
 
+    private injectables: functionHashmap = {};
     private instances: functionHashmap = {};
 
     public inject(target: Function): any {
 
-        if(typeof this.instances[target.name] !== 'undefined'){
+        if (typeof this.instances[target.name] !== 'undefined') {
             return this.instances[target.name];
         }
 
@@ -20,6 +22,30 @@ export class Container{
         this.instances[target.name] = instance;
 
         return instance;
+
+    }
+
+    public addInjectable(provider, injectable?) {
+
+        let key = provider.name;
+
+        if (typeof this.injectables[key] !== 'undefined') {
+            throw new InjectableIsAddedException();
+        }
+
+        this.injectables[key] = injectable || provider;
+
+    }
+
+    public getInjectable(injectable) {
+
+        let key = injectable.name;
+
+        if (typeof this.injectables[key] === 'undefined') {
+            throw new InjectableIsNotAddedException(injectable);
+        }
+
+        return this.injectables[key];
 
     }
 
@@ -34,33 +60,33 @@ export class Container{
     }
 
     public getInstance(key: string): Function {
-        
+
         return this.instances[key];
 
     }
 
     public onInit() {
-        for(let key in this.instances){
+        for (let key in this.instances) {
 
             let instance: any = this.instances[key];
 
-            if(typeof instance.onInit !== 'undefined') {
+            if (typeof instance.onInit !== 'undefined') {
                 instance.onInit();
             }
 
-        };
+        }
     }
 
     public onStart() {
-        for(let key in this.instances){
+        for (let key in this.instances) {
 
             let instance: any = this.instances[key];
 
-            if(typeof instance.onInit !== 'undefined') {
+            if (typeof instance.onInit !== 'undefined') {
                 instance.onStart();
             }
 
-        };
+        }
     }
 
     private injectConstructorArguments(target: Function): Function {
@@ -68,13 +94,14 @@ export class Container{
         let injections = Reflect.getMetadata("design:paramtypes", target);
 
         let args = [];
-        
-        if(typeof injections !== 'undefined'){
 
-            for(let klass of injections){
-                
-                if(typeof this.instances[klass.name] === 'undefined'){
-                    this.instances[klass.name] = this.inject(klass);    
+        if (typeof injections !== 'undefined') {
+
+            for (let klass of injections) {
+
+                if (typeof this.instances[klass.name] === 'undefined') {
+                    let injectable = this.getInjectable(klass);
+                    this.instances[klass.name] = this.inject(injectable);
                 }
 
                 args.push(this.instances[klass.name]);
@@ -88,24 +115,26 @@ export class Container{
     private injectProperties(instance: Function, target: Function): void {
 
         let propertyInjections: injectionProperty[] = Reflect.getMetadata('propInjectTypes', target.prototype);
-        
-        if(typeof propertyInjections === 'undefined'){
+
+        if (typeof propertyInjections === 'undefined') {
             return;
         }
 
-        for(let item of propertyInjections){
-        
+        for (let item of propertyInjections) {
+
             let key = item.key;
             let klass = item.type;
 
-            if(typeof this.instances[klass.name] === 'undefined'){
-                this.instances[klass.name] = this.inject(klass);    
+            if (typeof this.instances[klass.name] === 'undefined') {
+                let injectable = this.getInjectable(klass);
+                this.instances[klass.name] = this.inject(injectable);
             }
 
             instance[key] = this.instances[klass.name];
-            
+
         }
 
     }
 
 }
+
