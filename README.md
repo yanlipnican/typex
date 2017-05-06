@@ -4,7 +4,7 @@
 Typex is lightweight **typescript** framework built on top of **Express.js**. It adds bit of opinion to unopinionated 
 world of node, to help you make a better software and javascript development process more pleasant. It's goal is to provide
 Spring(Java)/Symfony(PHP) like project structure such as controllers, services and **dependency injection**. It leverages 
-typescript classes, annotations and few packages to jump start you to do a very good structured and readable code.
+typescript classes, annotations and few packages to jump start you to write a very good structured and readable code.
 
 ## Documentation
 * Demo project is [here](https://typex-framework.gitbooks.io/typex-framework).
